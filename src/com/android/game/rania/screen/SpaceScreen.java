@@ -1,7 +1,9 @@
 package com.android.game.rania.screen;
 
 import com.android.game.rania.controller.MainController;
-import com.android.game.rania.model.Model;
+import com.android.game.rania.model.ObjectID;
+import com.android.game.rania.model.SpaceShip;
+import com.android.game.rania.model.StaticObject;
 import com.android.game.view.MainView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,6 +14,8 @@ public class SpaceScreen implements Screen{
 	
 	private MainView mView = null;
 	private MainController mController = null;
+	private Texture texture = null;
+	private Texture textureBackground = null;
 	
 	public SpaceScreen(MainView view, MainController contoller){
 		mView = view;
@@ -20,10 +24,13 @@ public class SpaceScreen implements Screen{
 
 	@Override
 	public void show() {
-		Texture texture  = new Texture(Gdx.files.internal("data/sprites/SpaceShip.png"));
-		mView.setTextureRegion(texture, Model.ModelID.SHIP);
+		texture  = new Texture(Gdx.files.internal("data/sprites/SpaceShip.png"));
+		mView.setTextureRegion(texture, ObjectID.SHIP);
+		textureBackground = new Texture(Gdx.files.internal("data/backgrounds/background.jpg"));
+		mView.setTextureRegion(textureBackground, ObjectID.BACKGROUND);
 		
-		mController.AddModelSpaceShip(0.0f, 0.0f);
+		mController.AddDynamicObject(new SpaceShip(0.0f, 0.0f));
+		mController.AddStaticObjects(new StaticObject(0.0f, 0.0f, ObjectID.BACKGROUND));
 	}
 
 	@Override
@@ -32,6 +39,10 @@ public class SpaceScreen implements Screen{
 
 	@Override
 	public void dispose() {
+		if (texture != null)
+			texture.dispose();
+		if (textureBackground != null)
+			textureBackground.dispose();
 	}
 
 	@Override
@@ -44,7 +55,7 @@ public class SpaceScreen implements Screen{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		mController.update();
-		mView.draw(mController.getModels());
+		mView.draw(mController.getDynamicObjects(), mController.getStaticObjects());
 	}
 
 	@Override

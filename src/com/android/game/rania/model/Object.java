@@ -2,32 +2,17 @@ package com.android.game.rania.model;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Model {
-	
-	public enum ModelID{
-		NONE,
-		SHIP
-	}
-	
-	private Vector2 position = new Vector2(0.0f, 0.0f);
-	private String  name 	= "";
-	private ModelID	idModel = ModelID.NONE;
+public class Object {
 
-	public Model(String objectName, float x, float y, ModelID id){
-		name = objectName;
+	private Vector2  position = new Vector2(0.0f, 0.0f);
+	private ObjectID idObject = ObjectID.NONE;
+
+	public Object(float x, float y, ObjectID id){
 		position.x = x;
 		position.y = y;
-		idModel = id;
+		idObject = id;
 	}
 
-	//name
-	public String getName(){
-		return name;
-	}
-	public void setName(String objectName){
-		name = objectName;
-	}
-	
 	//get position
 	public Vector2 getPosition(){
 		return position;
@@ -48,7 +33,10 @@ public class Model {
 	}
 
 	//objectID
-	public ModelID getObjectID(){
-		return idModel;
+	public ObjectID getObjectID(){
+		return idObject;
+	}
+	public void setObjectID(ObjectID id){
+		idObject = id;
 	}
 }

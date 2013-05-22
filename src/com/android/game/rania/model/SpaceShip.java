@@ -1,8 +1,8 @@
 package com.android.game.rania.model;
 
-public class SpaceShip extends Model{
+public class SpaceShip extends DynamicObject{
 	
 	public SpaceShip(float x, float y){
-		super("SpaceShip", x, y, ModelID.SHIP);
+		super(x, y, ObjectID.SHIP);
 	}
 }
