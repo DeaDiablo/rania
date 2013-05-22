@@ -1,13 +1,20 @@
 package com.android.game.rania;
 
-import com.android.game.rania.screens.SpaceScreen;
+import com.android.game.rania.controller.MainController;
+import com.android.game.rania.screen.SpaceScreen;
+import com.android.game.view.MainView;
 import com.badlogic.gdx.Game;
 
 public class RaniaGame extends Game {
+	
+	private MainView mView = null;
+	private MainController mController = null;
 
 	@Override
 	public void create() {
-		setScreen(new SpaceScreen());
+		mView = new MainView();
+		mController = new MainController();
+		setScreen(new SpaceScreen(mView, mController));
 	}
 
 	/*
