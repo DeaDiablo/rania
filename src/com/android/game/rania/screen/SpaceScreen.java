@@ -4,7 +4,7 @@ import com.android.game.rania.controller.MainController;
 import com.android.game.rania.model.ObjectID;
 import com.android.game.rania.model.SpaceShip;
 import com.android.game.rania.model.StaticObject;
-import com.android.game.view.MainView;
+import com.android.game.rania.view.MainView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;

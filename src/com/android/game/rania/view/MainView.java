@@ -1,4 +1,4 @@
-package com.android.game.view;
+package com.android.game.rania.view;
 
 import java.util.EnumMap;
 import java.util.Vector;

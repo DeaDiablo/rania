@@ -2,7 +2,7 @@ package com.android.game.rania;
 
 import com.android.game.rania.controller.MainController;
 import com.android.game.rania.screen.SpaceScreen;
-import com.android.game.view.MainView;
+import com.android.game.rania.view.MainView;
 import com.badlogic.gdx.Game;
 
 public class RaniaGame extends Game {
