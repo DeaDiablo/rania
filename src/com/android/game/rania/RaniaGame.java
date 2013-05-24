@@ -2,6 +2,7 @@ package com.android.game.rania;
 
 import com.android.game.rania.controller.MainController;
 import com.android.game.rania.screen.LoginScreen;
+import com.android.game.rania.userdata.User;
 //import com.android.game.rania.screen.SpaceScreen;
 import com.android.game.rania.view.MainView;
 import com.badlogic.gdx.Game;
@@ -12,12 +13,13 @@ public class RaniaGame extends Game {
 	public static RaniaGame      mGame       = null;
 	public static MainView       mView       = null;
 	public static MainController mController = null;
-
+	public static User           mUser       = null;
 	@Override
 	public void create() {
 		mGame = this;
 		mView = new MainView();
 		mController = new MainController();
+		mUser = new User();
 		//setScreen(new SpaceScreen());
 		setScreen(new LoginScreen());
 	}
