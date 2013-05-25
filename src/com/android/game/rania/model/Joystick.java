@@ -51,7 +51,8 @@ public class Joystick extends Group implements InputProcessor{
 			bufferVec.mul(radius);
 			bufferVec.add(background.position);
 		}
-		dragger.position.set(bufferVec);
+		dragger.position.set(background.position);
+		dragger.position.add(bufferVec);
 		delta.set(background.position);
 		delta.sub(dragger.position);
 		delta.nor();
