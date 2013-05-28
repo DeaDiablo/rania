@@ -1,6 +1,5 @@
 package com.android.game.rania.model.element;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -32,7 +31,7 @@ public class Object {
 		return null;
 	}
 	
-	public void draw(OrthographicCamera camera, SpriteBatch sprite, TextureRegion region){
+	public void draw(SpriteBatch sprite, TextureRegion region){
 		if (!visible)
 			return;
 		sprite.draw(region, 

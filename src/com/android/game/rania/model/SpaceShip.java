@@ -5,6 +5,8 @@ import com.android.game.rania.model.element.ObjectID;
 
 public class SpaceShip extends DynamicObject{
 	
+	public float speed = 1.0f;
+
 	public SpaceShip(float posX, float posY){
 		super(ObjectID.SHIP, posX, posY);
 	}
