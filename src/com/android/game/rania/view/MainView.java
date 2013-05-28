@@ -9,7 +9,6 @@ import com.android.game.rania.model.element.Object;
 import com.android.game.rania.model.element.ObjectID;
 import com.android.game.rania.model.element.StaticObject;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class MainView {
 	
 	//camera
-	private OrthographicCamera camera = null;
+	private Camera camera = null;
 	private final float heightSize = 384.0f;
 	
 	//sprites
@@ -30,9 +29,7 @@ public class MainView {
 	
 	public MainView(){
 		//create camera
-		camera = new OrthographicCamera(heightSize * Gdx.graphics.getWidth() / Gdx.graphics.getHeight(), heightSize);
-		camera.position.set(0.0f, 0.0f, 0.0f);
-		camera.update();
+		camera = new Camera(heightSize);
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatchHUD = new SpriteBatch();
@@ -73,12 +70,17 @@ public class MainView {
 		return regTexture.getTexture();
 	}
 	
+	public Camera getCamera(){
+		return camera;
+	}
+	
 	public void clear(){
 		textureRegions.clear();
 		for(Texture texture : textures.values()){
 			texture.dispose();
 		}
 		textures.clear();
+		camera = null;
 	}
 	
 	public void draw(){
@@ -94,16 +96,16 @@ public class MainView {
 
 		//render static objects
 		for (StaticObject object : RaniaGame.mController.getStaticObjects()) {
-			object.draw(camera, spriteBatch, textureRegions.get(object.idObject));
+			object.draw(spriteBatch, textureRegions.get(object.idObject));
 		}
 
 		//render dynamic objects
 		for (DynamicObject object : RaniaGame.mController.getDynamicObjects()) {
-			object.draw(camera, spriteBatch, textureRegions.get(object.idObject));
+			object.draw(spriteBatch, textureRegions.get(object.idObject));
 		}
 		
 		//render player
-		player.draw(camera, spriteBatch, textureRegions.get(player.idObject));
+		player.draw(spriteBatch, textureRegions.get(player.idObject));
 		
 		//end render
 		spriteBatch.end();
@@ -111,7 +113,7 @@ public class MainView {
 		spriteBatchHUD.begin();
 		//render HUD objects
 		for (Object object : RaniaGame.mController.getHUDObjects()) {
-			object.draw(camera, spriteBatchHUD, textureRegions.get(object.idObject));
+			object.draw(spriteBatchHUD, textureRegions.get(object.idObject));
 		}
 		spriteBatchHUD.end();
 	}
