@@ -11,5 +11,4 @@ public class User {
 	public boolean isConnected;
 	public boolean isLogin;
 	public List<Command> commands;
-	
 }
