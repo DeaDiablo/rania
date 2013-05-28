@@ -2,7 +2,7 @@ package com.android.game.rania.screen;
 
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.controller.MainController;
-import com.android.game.rania.model.Joystick;
+import com.android.game.rania.controller.Joystick;
 import com.android.game.rania.model.SpaceShip;
 import com.android.game.rania.model.element.ObjectID;
 import com.android.game.rania.model.element.StaticObject;

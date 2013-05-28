@@ -1,4 +1,4 @@
-package com.android.game.rania.model;
+package com.android.game.rania.controller;
 
 import com.android.game.rania.model.element.Group;
 import com.android.game.rania.model.element.Object;
@@ -15,6 +15,11 @@ public class Joystick extends Group implements InputProcessor{
 	private HUDObject dragger 	 	 = null;
 	private float 	  radius 	 	 = 0.0f;
 	
+	//Sets the position of the joystick, depending on what the device supports
+	//check : RaniaGame.mContext.getPackageManager().hasSystemFeature
+	//param : PackageManager.FEATURE_TOUCHSCREEN, The device’s display has a touch screen.
+	//param : PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH, The device’s touch screen supports multitouch sufficient for basic two-finger gesture detection.
+	//param : PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_DISTINCT, The device’s touch screen is capable of tracking two or more fingers fully independently.
 	public Joystick(float x, float y, float touchRadius, Object object) {
 		super();
 		radius = touchRadius;
@@ -28,46 +33,60 @@ public class Joystick extends Group implements InputProcessor{
 	}
 
 	//contoller
-	private boolean touch 	  = false;
+	private int		pTouch	  = -1;
 	private Vector2	bufferVec = new Vector2(0, 0);
 	private Vector2	delta 	  = new Vector2(0, 0);
-		
+
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
-		bufferVec.set(background.position);
-		bufferVec.sub(x, Gdx.graphics.getHeight() - y);
-		touch = (bufferVec.len() <= radius);
-		return touch;
+		if (pTouch >= 0)
+			return false;
+
+		bufferVec.set(x, Gdx.graphics.getHeight() - y);
+		bufferVec.sub(background.position);
+		if (bufferVec.len() > radius)
+			return false;
+
+		pTouch = pointer;
+		return true;
+	}
+
+	@Override
+	public boolean touchDragged(int x, int y, int pointer) {
+		if (pTouch != pointer)
+			return false;
+		
+		bufferVec.set(x, Gdx.graphics.getHeight() - y);
+		bufferVec.sub(background.position);
+		return true;
 	}
 	
 	public void update(float deltaTime) {
-		if (!touch)
+		if (pTouch < 0)
 			return;
 
-		bufferVec.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-		bufferVec.sub(background.position);
 		if (bufferVec.len() > radius){
 			bufferVec.nor();
 			bufferVec.mul(radius);
-			bufferVec.add(background.position);
 		}
+
 		dragger.position.set(background.position);
 		dragger.position.add(bufferVec);
-		delta.set(background.position);
-		delta.sub(dragger.position);
+
+		delta.set(dragger.position);
+		delta.sub(background.position);
 		delta.nor();
 		//delta.mul(deltaTime);
-		controllObject.position.sub(delta);
-		controllObject.angle = (float)Math.toDegrees(Math.atan2(delta.x, -delta.y));
+		controllObject.position.add(delta);
+		controllObject.angle = (float)Math.toDegrees(Math.atan2(-delta.x, delta.y));
 	}
 	
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
-		if (!touch)
+		if (pTouch != pointer)
 			return false;
-
 		dragger.position.set(background.position);
-		touch = false;
+		pTouch = -1;
 		return true;
 	}
 
@@ -93,11 +112,6 @@ public class Joystick extends Group implements InputProcessor{
 
 	@Override
 	public boolean scrolled(int amount) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int x, int y, int pointer) {
 		return false;
 	}
 }
