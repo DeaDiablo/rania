@@ -8,7 +8,8 @@ public enum ObjectID {
 	JOYSTICK_UP,
 	
 	//static elements
-	BACKGROUND,
+	BACKGROUND_SPACE,
+	BACKGROUND_STARS,
 	
 	//dynamic elements
 	SHIP

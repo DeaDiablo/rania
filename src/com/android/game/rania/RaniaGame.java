@@ -3,9 +3,9 @@ package com.android.game.rania;
 import android.content.Context;
 
 import com.android.game.rania.controller.MainController;
-import com.android.game.rania.screen.LoginScreen;
+//import com.android.game.rania.screen.LoginScreen;
 import com.android.game.rania.userdata.User;
-//import com.android.game.rania.screen.SpaceScreen;
+import com.android.game.rania.screen.SpaceScreen;
 import com.android.game.rania.view.MainView;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -29,8 +29,8 @@ public class RaniaGame extends Game {
 		mView = new MainView();
 		mController = new MainController();
 		mUser = new User();
-		//setScreen(new SpaceScreen());
-		setScreen(new LoginScreen());
+		setScreen(new SpaceScreen());
+		//setScreen(new LoginScreen());
 	}
 
 	/*

@@ -1,5 +1,8 @@
 package com.android.game.rania.model.element;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Object {
@@ -27,5 +30,20 @@ public class Object {
 	
 	public HUDObject asHUDObject(){
 		return null;
+	}
+	
+	public void draw(OrthographicCamera camera, SpriteBatch sprite, TextureRegion region){
+		if (!visible)
+			return;
+		sprite.draw(region, 
+					position.x - region.getRegionWidth() * 0.5f,
+					position.y - region.getRegionHeight() * 0.5f,
+					region.getRegionWidth() * 0.5f,
+					region.getRegionHeight() * 0.5f,
+					region.getRegionWidth(),
+					region.getRegionHeight(),
+					scale.x,
+					scale.y,
+					angle);
 	}
 }

@@ -25,7 +25,6 @@ public class MainView {
 	private SpriteBatch spriteBatchHUD = null;
 	
 	//textures
-	private TextureRegion region = null;
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
 	private EnumMap<ObjectID, TextureRegion> textureRegions = new EnumMap<ObjectID, TextureRegion>(ObjectID.class);
 	
@@ -95,16 +94,16 @@ public class MainView {
 
 		//render static objects
 		for (StaticObject object : RaniaGame.mController.getStaticObjects()) {
-			drawObject(spriteBatch, object);
+			object.draw(camera, spriteBatch, textureRegions.get(object.idObject));
 		}
 
 		//render dynamic objects
 		for (DynamicObject object : RaniaGame.mController.getDynamicObjects()) {
-			drawObject(spriteBatch, object);
+			object.draw(camera, spriteBatch, textureRegions.get(object.idObject));
 		}
 		
 		//render player
-		drawObject(spriteBatch, player);
+		player.draw(camera, spriteBatch, textureRegions.get(player.idObject));
 		
 		//end render
 		spriteBatch.end();
@@ -112,24 +111,8 @@ public class MainView {
 		spriteBatchHUD.begin();
 		//render HUD objects
 		for (Object object : RaniaGame.mController.getHUDObjects()) {
-			drawObject(spriteBatchHUD, object);
+			object.draw(camera, spriteBatchHUD, textureRegions.get(object.idObject));
 		}
 		spriteBatchHUD.end();
-	}
-	
-	private void drawObject(SpriteBatch sprite, Object object)	{
-		if (!object.visible)
-			return;
-		region = textureRegions.get(object.idObject);
-		sprite.draw(region, 
-					object.position.x - region.getRegionWidth() * 0.5f,
-					object.position.y - region.getRegionHeight() * 0.5f,
-					region.getRegionWidth() * 0.5f,
-					region.getRegionHeight() * 0.5f,
-					region.getRegionWidth(),
-					region.getRegionHeight(),
-					object.scale.x,
-					object.scale.y,
-					object.angle);
 	}
 }
