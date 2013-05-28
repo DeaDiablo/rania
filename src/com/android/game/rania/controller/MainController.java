@@ -7,8 +7,9 @@ import com.android.game.rania.model.element.Group;
 import com.android.game.rania.model.element.HUDObject;
 import com.android.game.rania.model.element.Object;
 import com.android.game.rania.model.element.StaticObject;
+import com.badlogic.gdx.InputMultiplexer;
 
-public class MainController{
+public class MainController extends InputMultiplexer{
 
 	private Vector<DynamicObject> dynamicObjects = new Vector<DynamicObject>();
 	private Vector<StaticObject> staticObjects = new Vector<StaticObject>();
@@ -16,6 +17,7 @@ public class MainController{
 	private DynamicObject mPlayer = null;
 
 	public MainController(){
+		super();
 	}
 	
 	public DynamicObject getPlayer(){
@@ -83,5 +85,6 @@ public class MainController{
 		staticObjects.clear();
 		HUDObjects.clear();
 		mPlayer = null;
+		super.clear();
 	}
 }

@@ -42,7 +42,7 @@ public class SpaceScreen implements Screen{
 		controller.addObject(joystick);
 		controller.addStaticObject(new ParallaxLayer(ObjectID.BACKGROUND_SPACE, 0.5f, 1.0f));
 		controller.addStaticObject(new ParallaxLayer(ObjectID.BACKGROUND_STARS, 0.2f, 1.0f));
-		Gdx.input.setInputProcessor(joystick);
+		controller.addProcessor(joystick);
 	}
 
 	@Override

@@ -29,6 +29,8 @@ public class RaniaGame extends Game {
 		mView = new MainView();
 		mController = new MainController();
 		mUser = new User();
+
+		Gdx.input.setInputProcessor(mController);
 		setScreen(new SpaceScreen());
 		//setScreen(new LoginScreen());
 	}
