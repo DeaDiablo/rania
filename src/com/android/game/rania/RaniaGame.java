@@ -3,9 +3,10 @@ package com.android.game.rania;
 import android.content.Context;
 
 import com.android.game.rania.controller.MainController;
-//import com.android.game.rania.screen.LoginScreen;
-import com.android.game.rania.userdata.User;
 import com.android.game.rania.screen.SpaceScreen;
+import com.android.game.rania.net.NetController;
+import com.android.game.rania.screen.MainMenu;
+import com.android.game.rania.userdata.User;
 import com.android.game.rania.view.MainView;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -16,6 +17,7 @@ public class RaniaGame extends Game {
 	public static Context		 mContext    = null;
 	public static MainView       mView       = null;
 	public static MainController mController = null;
+	public static NetController  nController = null;
 	public static User           mUser       = null;
 	
 	public RaniaGame(Context context) {
@@ -29,10 +31,9 @@ public class RaniaGame extends Game {
 		mView = new MainView();
 		mController = new MainController();
 		mUser = new User();
-
-		Gdx.input.setInputProcessor(mController);
-		setScreen(new SpaceScreen());
-		//setScreen(new LoginScreen());
+		nController = new NetController();
+		setScreen(new MainMenu());
+		//setScreen(new SpaceScreen());
 	}
 
 	/*
