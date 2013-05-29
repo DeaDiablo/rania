@@ -8,6 +8,7 @@ import com.android.game.rania.model.element.HUDObject;
 import com.android.game.rania.model.element.Object;
 import com.android.game.rania.model.element.StaticObject;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Gdx;
 
 public class MainController extends InputMultiplexer{
 
@@ -19,6 +20,7 @@ public class MainController extends InputMultiplexer{
 
 	public MainController(){
 		super();
+		Gdx.input.setInputProcessor(this);
 	}
 	
 	//update controllers
