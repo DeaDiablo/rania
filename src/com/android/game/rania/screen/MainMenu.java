@@ -26,12 +26,14 @@ public class MainMenu  implements Screen, InputProcessor{
 		private TextureRegion btExitRegionUp;
 		private TextureRegion btLoginRegionDown;
 		private TextureRegion btExitRegionDown;
+		private TextureRegion lbLoginErrorRegion;
 		private SpriteBatch spriteBatch;
 		private OrthographicCamera cam;
 		private float CAMERA_WIDTH = 800F;
 		private float CAMERA_HEIGHT = 480F;
 		private boolean downLogin;
 		private boolean downExit;
+		private boolean flagLoginError;
 		private int Width;
 		private int Height;
 		public float ppuX;
@@ -89,6 +91,7 @@ public class MainMenu  implements Screen, InputProcessor{
 		controller = RaniaGame.mController;
 		downLogin = false;
 		downExit = false;
+		flagLoginError = false;
 		spriteBatch = new SpriteBatch();
 		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
 		loadTextures();
@@ -141,6 +144,7 @@ public class MainMenu  implements Screen, InputProcessor{
 		btExitRegionUp = new TextureRegion(bgTexture, 0, 598, 140, 40);
 		btLoginRegionDown = new TextureRegion(bgTexture, 0, 638, 140, 40);
 		btExitRegionDown = new TextureRegion(bgTexture, 0, 678, 140, 40);
+		lbLoginErrorRegion = new TextureRegion(bgTexture, 0, 717, 200, 20);
 	}
 	public void showBG(){
 		spriteBatch.draw(bgRegion,0,0, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -148,6 +152,7 @@ public class MainMenu  implements Screen, InputProcessor{
 		else {spriteBatch.draw(btLoginRegionUp, CAMERA_WIDTH/2-50, 60+10, 100, 20);}
 		if (downExit) {spriteBatch.draw(btExitRegionDown, CAMERA_WIDTH/2-50, 30+5, 100, 20);}
 		else {spriteBatch.draw(btExitRegionUp, CAMERA_WIDTH/2-50, 30+5, 100, 20);}
+		if (flagLoginError) {spriteBatch.draw(lbLoginErrorRegion, CAMERA_WIDTH/2-100, 5, 200, 20);}
 	}
 	@Override
 	public boolean keyDown(int arg0) {
@@ -201,16 +206,17 @@ public class MainMenu  implements Screen, InputProcessor{
 		if (downExit) {this.dispose();}
 		if (downLogin) 
 		{
+			flagLoginError = false;
 			NetController netController = new NetController();
 			RaniaGame.mUser = netController.ClientLogin(loginTextField.getText(), passwordTextField.getText());
 			if (RaniaGame.mUser.isLogin)
 			{
-				netController.GetUserData(RaniaGame.mUser);
+				//netController.GetUserData(RaniaGame.mUser);
 				RaniaGame.mGame.setScreen(new SpaceScreen());
 			}
 			else
 			{
-			 //ошибка авторизации
+				flagLoginError = true;
 			}
 		}
 		downLogin=false;
