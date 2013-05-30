@@ -1,6 +1,8 @@
 package com.android.game.rania.screen;
 
 import com.android.game.rania.RaniaGame;
+import com.android.game.rania.controller.MainController;
+import com.android.game.rania.net.NetController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -34,11 +36,15 @@ public class MainMenu  implements Screen, InputProcessor{
 		private int Height;
 		public float ppuX;
 		public float ppuY;
+		private MainController controller = null;
+		private TextField loginTextField = null;
+		private TextField passwordTextField = null;
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		stage.dispose();
 		skin.dispose();
+		controller.clear();
 	}
 
 	@Override
@@ -80,26 +86,27 @@ public class MainMenu  implements Screen, InputProcessor{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
+		controller = RaniaGame.mController;
 		downLogin = false;
 		downExit = false;
 		spriteBatch = new SpriteBatch();
 		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
 		loadTextures();
-		Gdx.input.setInputProcessor(this);
+		
 		Width = Gdx.graphics.getWidth();
 		Height = Gdx.graphics.getHeight();
 		ppuX = (float)Width / CAMERA_WIDTH;
 		ppuY = (float)Height / CAMERA_HEIGHT;
 		skin = new Skin(Gdx.files.internal("data/gui/uiskin.json"));
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-		TextField loginTextField = new TextField("", skin);
+		loginTextField = new TextField("", skin);
 		loginTextField.setMessageText("Enter email");
 		loginTextField.setTextFieldListener(new TextFieldListener() {
 			public void keyTyped (TextField textField, char key) {
 				if (key == '\n') textField.getOnscreenKeyboard().show(false);
 			}
 		});
-		TextField passwordTextField = new TextField("", skin);
+		passwordTextField  = new TextField("", skin);
 		passwordTextField.setMessageText("Enter Password");
 		passwordTextField.setPasswordCharacter('*');
 		passwordTextField.setPasswordMode(true);
@@ -119,7 +126,8 @@ public class MainMenu  implements Screen, InputProcessor{
 	    container.row().fill(true).pad(5, 0, 5, 0);
 	    container.add(passwordTextField);
 		stage.addActor(container);
-		//Gdx.input.setInputProcessor(stage);
+		controller.addProcessor(stage);
+		controller.addProcessor(this);
 	}
 	public void SetCamera(float x, float y){
 	    this.cam.position.set(x, y,0);	
@@ -193,7 +201,17 @@ public class MainMenu  implements Screen, InputProcessor{
 		if (downExit) {this.dispose();}
 		if (downLogin) 
 		{
-			RaniaGame.mGame.setScreen(new SpaceScreen());
+			NetController netController = new NetController();
+			RaniaGame.mUser = netController.ClientLogin(loginTextField.getText(), passwordTextField.getText());
+			if (RaniaGame.mUser.isLogin)
+			{
+				netController.GetUserData(RaniaGame.mUser);
+				RaniaGame.mGame.setScreen(new SpaceScreen());
+			}
+			else
+			{
+			 //ошибка авторизации
+			}
 		}
 		downLogin=false;
 		downExit=false;
