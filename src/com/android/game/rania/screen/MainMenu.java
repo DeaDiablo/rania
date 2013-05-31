@@ -208,10 +208,17 @@ public class MainMenu  implements Screen, InputProcessor{
 		{
 			flagLoginError = false;
 			NetController netController = new NetController();
+			//автологин
+			loginTextField.setText("traider");
+			passwordTextField.setText("SNmLwpLn");
+			//автологин
 			RaniaGame.mUser = netController.ClientLogin(loginTextField.getText(), passwordTextField.getText());
 			if (RaniaGame.mUser.isLogin)
 			{
-				//netController.GetUserData(RaniaGame.mUser);
+				netController.GetUserData(RaniaGame.mUser);
+				netController.GetAllLocations(RaniaGame.mUser);
+				netController.GetCurrentPlanets(RaniaGame.mUser);
+				RaniaGame.mUser.receiver.start();
 				RaniaGame.mGame.setScreen(new SpaceScreen());
 			}
 			else

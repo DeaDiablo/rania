@@ -7,8 +7,9 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import org.apache.http.util.EncodingUtils;
 import com.android.game.rania.RaniaGame;
+import com.android.game.rania.model.element.Locations;
+import com.android.game.rania.model.element.Planets;
 import com.android.game.rania.userdata.Command;
 import com.android.game.rania.userdata.User;
 
@@ -33,18 +34,17 @@ public class NetController {
 				Res.socket = socket;
 				InputStream sin = socket.getInputStream();
 				DataInputStream in = new DataInputStream(sin);
-				SendCommand(1, EncodingUtils.getBytes(Login, "UTF-16"), socket);
-				SendCommand(6, EncodingUtils.getBytes(Password, "UTF-16"), socket);
+				SendCommand(1, Login.getBytes("UTF-16LE"), socket);
+				SendCommand(6, Password.getBytes("UTF-16LE"), socket);
 				byte[] answer = new byte[4]; 
 				in.read(answer);
-				if (byteArrayToInt(answer) == 2) 
+				if (byteArrayToInt(answer)>0) 
 				{
 					Res.socket = socket;
 					Res.isLogin = true;
 					Res.isConnected = true;
 					Res.receiver = new ReceiverWork();
 					Res.commands = new ArrayList<Command>();
-					Res.receiver.start();
 				}
 			}
 		}
@@ -105,11 +105,181 @@ public class NetController {
 	{
 		
 	}
+	public void GetCurrentPlanets(User user)
+	{
+		try
+		{
+			InputStream sin = user.socket.getInputStream();
+			DataInputStream in = new DataInputStream(sin);
+			SendCommand(9, new byte[0], user.socket);
+			byte[] LenArr = new byte[4];
+			in.read(LenArr);
+			byte[] PlanetsArr = new byte[byteArrayToInt(LenArr)];
+			in.read(PlanetsArr);
+			int ArrPtr = 0;
+			byte[] PlanetsCountArr = new byte[4];
+			for (int i=0;i<4;i++)
+			{
+				PlanetsCountArr[i]=PlanetsArr[ArrPtr];
+				ArrPtr++;
+			}
+			for (int i=0;i<byteArrayToInt(PlanetsCountArr);i++)
+			{
+				byte[] idArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					idArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] PlanetNameLenArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					PlanetNameLenArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] PlanetNameArr = new byte[byteArrayToInt(PlanetNameLenArr)];
+				for (int j=0;j<byteArrayToInt(PlanetNameLenArr);j++)
+				{
+					PlanetNameArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] PlanetTypeArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					PlanetTypeArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] R_speedArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					R_speedArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] OrbitArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					OrbitArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] RadiusArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					RadiusArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				Planets planet = new Planets();
+				planet.id = byteArrayToInt(idArr);
+				planet.PlanetType = byteArrayToInt(PlanetTypeArr);
+				planet.Orbit = byteArrayToInt(OrbitArr);
+				planet.PlanetName = new String(PlanetNameArr, "UTF-16LE");
+				planet.R_speed = byteArrayToInt(R_speedArr);
+				planet.Radius  = byteArrayToInt(RadiusArr);
+				RaniaGame.mPlanets.add(planet);
+			}
+		}
+		catch (Exception ex)
+		{
+			ClientRelogin(user);
+		}
+	}
+	public void GetAllLocations(User user)
+	{
+		try
+		{
+			InputStream sin = user.socket.getInputStream();
+			DataInputStream in = new DataInputStream(sin);
+			SendCommand(8, new byte[0], user.socket);
+			byte[] LenArr = new byte[4];
+			in.read(LenArr);
+			byte[] LocationsArr = new byte[byteArrayToInt(LenArr)];
+			in.read(LocationsArr);
+			int ArrPtr = 0;
+			byte[] LocationsCountArr = new byte[4];
+			for (int i=0;i<4;i++)
+			{
+				LocationsCountArr[i]=LocationsArr[ArrPtr];
+				ArrPtr++;
+			}
+			for (int i=0;i<byteArrayToInt(LocationsCountArr);i++)
+			{
+				byte[] idArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					idArr[j]=LocationsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] StarNameLenArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					StarNameLenArr[j]=LocationsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] StarNameArr = new byte[byteArrayToInt(StarNameLenArr)];
+				for (int j=0;j<byteArrayToInt(StarNameLenArr);j++)
+				{
+					StarNameArr[j]=LocationsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] StarTypeArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					StarTypeArr[j]=LocationsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] xArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					xArr[j]=LocationsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] yArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					yArr[j]=LocationsArr[ArrPtr];
+					ArrPtr++;
+				}
+				Locations Loc = new Locations();
+				Loc.id = byteArrayToInt(idArr);
+				Loc.StarType = byteArrayToInt(StarTypeArr);
+				Loc.x = byteArrayToInt(xArr);
+				Loc.y = byteArrayToInt(yArr);
+				Loc.StarName = new String(StarNameArr, "UTF-16LE"); 
+				RaniaGame.mLocations.add(Loc);
+			}
+		}
+		catch (Exception ex)
+		{
+			ClientRelogin(user);
+		}
+	}
+	
 	public void GetUserData(User user)
 	{
 		try
 		{
-			
+			InputStream sin = user.socket.getInputStream();
+			DataInputStream in = new DataInputStream(sin);
+			SendCommand(7, new byte[0], user.socket);
+			byte[] LocArr = new byte[4];
+			byte[] xArr = new byte[4];
+			byte[] yArr = new byte[4];
+			in.read(LocArr);
+			in.read(xArr);
+			in.read(yArr);
+			byte[] PnameLenArr = new byte[4];
+			byte[] SnameLenArr = new byte[4];
+			in.read(PnameLenArr);
+			byte[] PnameArr = new byte[byteArrayToInt(PnameLenArr)];
+			in.read(PnameArr);
+			in.read(SnameLenArr);
+			byte[] SnameArr = new byte[byteArrayToInt(SnameLenArr)];
+			in.read(SnameArr);
+			user.Location = byteArrayToInt(LocArr);
+			user.x = byteArrayToInt(xArr);
+			user.y = byteArrayToInt(yArr);
+			user.PilotName = new String(PnameArr, "UTF-16LE");
+			user.ShipName = new String(SnameArr, "UTF-16LE");
+			user.isLogin=true;
 		}
 		catch (Exception ex)
 		{

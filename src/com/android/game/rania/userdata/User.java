@@ -10,4 +10,9 @@ public class User {
 	public boolean isLogin;
 	public Thread receiver;
 	public List<Command> commands;
+	public int Location;
+	public int x;
+	public int y;
+	public String PilotName;
+	public String ShipName;
 }
