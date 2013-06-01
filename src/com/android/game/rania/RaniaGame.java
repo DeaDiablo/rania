@@ -1,13 +1,8 @@
 package com.android.game.rania;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 
 import com.android.game.rania.controller.MainController;
-import com.android.game.rania.model.element.Locations;
-import com.android.game.rania.model.element.Planets;
 import com.android.game.rania.model.ui.HelperUI;
 import com.android.game.rania.net.NetController;
 import com.android.game.rania.screen.MainMenu;
@@ -32,8 +27,6 @@ public class RaniaGame extends Game {
 	//network
 	public static NetController  nController = null;
 	public static User           mUser       = null;
-	public static List<Locations>mLocations;
-	public static List<Planets>  mPlanets;
 	
 	public RaniaGame(Context context) {
 		super();
@@ -48,8 +41,6 @@ public class RaniaGame extends Game {
 		mController = new MainController();
 		mUser = new User();
 		nController = new NetController();
-		mLocations = new ArrayList<Locations>();
-		mPlanets = new ArrayList<Planets>();
 		setScreen(new MainMenu());
 	}
 

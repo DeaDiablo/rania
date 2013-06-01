@@ -3,6 +3,8 @@ package com.android.game.rania.screen;
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.controller.MainController;
 import com.android.game.rania.controller.ShipController;
+import com.android.game.rania.model.Location;
+import com.android.game.rania.model.LocationSprite;
 import com.android.game.rania.model.ParallaxLayer;
 import com.android.game.rania.model.SpaceShip;
 import com.android.game.rania.model.element.RegionID;
@@ -24,17 +26,28 @@ public class SpaceScreen implements Screen{
 
 	@Override
 	public void show() {
+		view.loadTexture("data/sprites/star.png", RegionID.STAR);
+		view.loadTexture("data/sprites/planet.png", RegionID.PLANET);
 		view.loadTexture("data/sprites/SpaceShip.png", RegionID.SHIP);
 		view.loadTexture("data/backgrounds/space.jpg", RegionID.BACKGROUND_SPACE);
 		view.getTexture(RegionID.BACKGROUND_SPACE).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
 		view.getTexture(RegionID.BACKGROUND_STARS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 
-		SpaceShip ship = new SpaceShip(0.0f, 0.0f);
+		SpaceShip ship = new SpaceShip(250.0f, 250.0f);
 		controller.setPlayer(ship);
 
 		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.3f, 1.0f));
 		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, 0.0f, 1.0f));
+		//Vector<Location> locations = RaniaGame.nController.GetAllLocations(RaniaGame.mUser);
+		//Gdx.app.log("looog", "size: " + locations.size());
+		Location loc = new Location();
+		loc.id = 0;
+		loc.x = 0;
+		loc.y = 0;
+		loc.starType = 0;
+		loc.starName = "Sun";
+		controller.addObject(new LocationSprite(loc));
 		controller.addProcessor(new ShipController(ship));
 	}
 

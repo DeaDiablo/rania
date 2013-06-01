@@ -7,9 +7,11 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Vector;
+
 import com.android.game.rania.RaniaGame;
-import com.android.game.rania.model.element.Locations;
-import com.android.game.rania.model.element.Planets;
+import com.android.game.rania.model.Location;
+import com.android.game.rania.model.Planet;
 import com.android.game.rania.userdata.Command;
 import com.android.game.rania.userdata.User;
 
@@ -54,6 +56,7 @@ public class NetController {
 		}
 		return Res;
 	}
+	
 	private class ReceiverWork extends Thread
 		{
 			public void run()
@@ -87,6 +90,7 @@ public class NetController {
 				}
 			}
 		}
+	
 	public void ClientDisconnect(User user)
 	{
 		try
@@ -101,12 +105,15 @@ public class NetController {
 			
 		}
 	}
+	
 	public void ClientRelogin(User user)
 	{
 		
 	}
-	public void GetCurrentPlanets(User user)
+	
+	public Vector<Planet> GetCurrentPlanets(User user)
 	{
+		Vector<Planet> planets = new Vector<Planet>();
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -167,23 +174,27 @@ public class NetController {
 					RadiusArr[j]=PlanetsArr[ArrPtr];
 					ArrPtr++;
 				}
-				Planets planet = new Planets();
+				Planet planet = new Planet();
 				planet.id = byteArrayToInt(idArr);
-				planet.PlanetType = byteArrayToInt(PlanetTypeArr);
-				planet.Orbit = byteArrayToInt(OrbitArr);
-				planet.PlanetName = new String(PlanetNameArr, "UTF-16LE");
-				planet.R_speed = byteArrayToInt(R_speedArr);
-				planet.Radius  = byteArrayToInt(RadiusArr);
-				RaniaGame.mPlanets.add(planet);
+				planet.planetType = byteArrayToInt(PlanetTypeArr);
+				planet.orbit = byteArrayToInt(OrbitArr);
+				planet.planetName = new String(PlanetNameArr, "UTF-16LE");
+				planet.speed = byteArrayToInt(R_speedArr);
+				planet.radius  = byteArrayToInt(RadiusArr);
+				planets.add(planet);
 			}
 		}
 		catch (Exception ex)
 		{
 			ClientRelogin(user);
 		}
+		
+		return planets;
 	}
-	public void GetAllLocations(User user)
+	
+	public Vector<Location> GetAllLocations(User user)
 	{
+		Vector<Location> locations = new Vector<Location>();
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -238,19 +249,20 @@ public class NetController {
 					yArr[j]=LocationsArr[ArrPtr];
 					ArrPtr++;
 				}
-				Locations Loc = new Locations();
+				Location Loc = new Location();
 				Loc.id = byteArrayToInt(idArr);
-				Loc.StarType = byteArrayToInt(StarTypeArr);
 				Loc.x = byteArrayToInt(xArr);
 				Loc.y = byteArrayToInt(yArr);
-				Loc.StarName = new String(StarNameArr, "UTF-16LE"); 
-				RaniaGame.mLocations.add(Loc);
+				Loc.starType = byteArrayToInt(StarTypeArr);
+				Loc.starName = new String(StarNameArr, "UTF-16LE"); 
+				locations.add(Loc);
 			}
 		}
 		catch (Exception ex)
 		{
 			ClientRelogin(user);
 		}
+		return locations;
 	}
 	
 	public void GetUserData(User user)
@@ -279,13 +291,14 @@ public class NetController {
 			user.y = byteArrayToInt(yArr);
 			user.PilotName = new String(PnameArr, "UTF-16LE");
 			user.ShipName = new String(SnameArr, "UTF-16LE");
-			user.isLogin=true;
+			user.isLogin = true;
 		}
 		catch (Exception ex)
 		{
 			ClientRelogin(user);
 		}
 	}
+
 	public void SendCommand(int cmd, byte[] data, Socket socket)
 	{
 		try 
