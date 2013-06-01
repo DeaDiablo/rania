@@ -47,7 +47,7 @@ public class MainView {
 		return region;
 	}
 	
-	public TextureRegion loadTexture(String fileTexture, RegionID id, float x, float y, float width, float height) {
+	public TextureRegion loadTexture(String fileTexture, RegionID id, int x, int y, int width, int height) {
 		Texture texture = textures.get(fileTexture);
 		if (texture == null)
 		{

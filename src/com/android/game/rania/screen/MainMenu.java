@@ -35,7 +35,7 @@ public class MainMenu implements Screen{
 	
 	@Override
 	public void show() {
-		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU);
+		view.loadTexture("data/backgrounds/menu.jpg", RegionID.BACKGROUND_MENU, 0, 0, 768, 512);
 		controller.addStaticObject(new StaticObject(RegionID.BACKGROUND_MENU, 0.0f, 0.0f));
 
 		float width = Gdx.graphics.getWidth();
