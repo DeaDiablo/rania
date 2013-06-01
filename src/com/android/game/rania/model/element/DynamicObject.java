@@ -1,17 +1,31 @@
 package com.android.game.rania.model.element;
 
-public class DynamicObject extends Object{
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-	public DynamicObject(ObjectID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
+public class DynamicObject extends Object{
+	
+	public DynamicObject(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		super(id, posX, posY, rotAngle, scaleX, scaleY);
 	}
 
-	public DynamicObject(ObjectID id, float posX, float posY, float rotAngle){
+	public DynamicObject(RegionID id, float posX, float posY, float rotAngle){
 		super(id, posX, posY, rotAngle, 1.0f, 1.0f);
 	}
 	
-	public DynamicObject(ObjectID id, float posX, float posY){
+	public DynamicObject(RegionID id, float posX, float posY){
 		super(id, posX, posY, 0.0f, 1.0f, 1.0f);
+	}
+	
+	public DynamicObject(TextureRegion textureRegion, float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		super(textureRegion, posX, posY, rotAngle, scaleX, scaleY);
+	}
+
+	public DynamicObject(TextureRegion textureRegion, float posX, float posY, float rotAngle){
+		super(textureRegion, posX, posY, rotAngle, 1.0f, 1.0f);
+	}
+	
+	public DynamicObject(TextureRegion textureRegion, float posX, float posY){
+		super(textureRegion, posX, posY, 0.0f, 1.0f, 1.0f);
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package com.android.game.rania.model;
 
 import com.android.game.rania.RaniaGame;
-import com.android.game.rania.model.element.ObjectID;
+import com.android.game.rania.model.element.RegionID;
 import com.android.game.rania.model.element.StaticObject;
 import com.android.game.rania.view.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,8 +14,16 @@ public class ParallaxLayer extends StaticObject{
 	private Sprite drawable = null;
 	private Camera camera = null;
 	
-    public ParallaxLayer(ObjectID id, float delta, float alpha) {
-        super(id, 0, 0);
+    public ParallaxLayer(RegionID id, float delta, float alpha) {
+        super(RaniaGame.mView.getTextureRegion(id), 0, 0);
+        ratio = delta;
+        drawable = new Sprite();
+        drawable.setColor(1.0f, 1.0f, 1.0f, alpha);
+        camera = RaniaGame.mView.getCamera();
+    }
+	
+    public ParallaxLayer(TextureRegion region, float delta, float alpha) {
+        super(region, 0, 0);
         ratio = delta;
         drawable = new Sprite();
         drawable.setColor(1.0f, 1.0f, 1.0f, alpha);
@@ -23,7 +31,7 @@ public class ParallaxLayer extends StaticObject{
     }
     
     @Override
-    public void draw(SpriteBatch sprite, TextureRegion region){
+    public void draw(SpriteBatch sprite){
 		if (!visible)
 			return;
 

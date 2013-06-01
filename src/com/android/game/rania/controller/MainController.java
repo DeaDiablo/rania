@@ -2,6 +2,7 @@ package com.android.game.rania.controller;
 
 import java.util.Vector;
 
+import com.android.game.rania.RaniaGame;
 import com.android.game.rania.model.element.DynamicObject;
 import com.android.game.rania.model.element.Group;
 import com.android.game.rania.model.element.HUDObject;
@@ -112,6 +113,7 @@ public class MainController extends InputMultiplexer{
 	}
 
 	public void clear() {
+		RaniaGame.mGame.setScreen(null);
 		super.clear();
 		updateControllers.clear();
 		dynamicObjects.clear();

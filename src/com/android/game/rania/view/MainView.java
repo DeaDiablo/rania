@@ -6,7 +6,7 @@ import java.util.HashMap;
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.model.element.DynamicObject;
 import com.android.game.rania.model.element.Object;
-import com.android.game.rania.model.element.ObjectID;
+import com.android.game.rania.model.element.RegionID;
 import com.android.game.rania.model.element.StaticObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,7 +17,7 @@ public class MainView {
 	
 	//camera
 	private Camera camera = null;
-	private final float heightSize = 384.0f;
+	private final float widthSize = 800.0f;
 	
 	//sprites
 	private SpriteBatch spriteBatch = null;
@@ -25,34 +25,38 @@ public class MainView {
 	
 	//textures
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
-	private EnumMap<ObjectID, TextureRegion> textureRegions = new EnumMap<ObjectID, TextureRegion>(ObjectID.class);
+	private EnumMap<RegionID, TextureRegion> textureRegions = new EnumMap<RegionID, TextureRegion>(RegionID.class);
 	
 	public MainView(){
 		//create camera
-		camera = new Camera(heightSize);
+		camera = new Camera(widthSize);
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatchHUD = new SpriteBatch();
 	}
 	
-	public void loadTexture(String fileTexture, ObjectID id) {
+	public TextureRegion loadTexture(String fileTexture, RegionID id) {
 		Texture texture = textures.get(fileTexture);
 		if (texture == null)
 		{
 			texture = new Texture(Gdx.files.internal(fileTexture));
 			textures.put(fileTexture, texture);
 		}
-		textureRegions.put(id, new TextureRegion(texture));
+		TextureRegion region = new TextureRegion(texture);
+		textureRegions.put(id, region);
+		return region;
 	}
 	
-	public void loadTexture(String fileTexture, ObjectID id, float x, float y, float width, float height) {
+	public TextureRegion loadTexture(String fileTexture, RegionID id, float x, float y, float width, float height) {
 		Texture texture = textures.get(fileTexture);
 		if (texture == null)
 		{
 			texture = new Texture(Gdx.files.internal(fileTexture));
 			textures.put(fileTexture, texture);
 		}
-		textureRegions.put(id, new TextureRegion(texture, x, y, width, height));
+		TextureRegion region = new TextureRegion(texture, x, y, width, height);
+		textureRegions.put(id, region);
+		return region;
 	}
 	
 	public void unloadTexture(String fileTexture){
@@ -63,7 +67,11 @@ public class MainView {
 		return textures.get(fileTexture);
 	}
 	
-	public Texture getTexture(ObjectID id){
+	public TextureRegion getTextureRegion(RegionID id){
+		return textureRegions.get(id);
+	}
+	
+	public Texture getTexture(RegionID id){
 		TextureRegion regTexture = textureRegions.get(id);
 		if (regTexture == null)
 			return null;
@@ -74,21 +82,24 @@ public class MainView {
 		return camera;
 	}
 	
+	public void setCamera(Camera cam){
+		camera = cam;
+	}
+	
 	public void clear(){
 		textureRegions.clear();
 		for(Texture texture : textures.values()){
 			texture.dispose();
 		}
 		textures.clear();
-		camera = null;
 	}
 	
 	public void draw(){
-		DynamicObject player = RaniaGame.mController.getPlayer();
-		
+		if (camera == null)
+			return;
+
 		//update camera
 		camera.update();
-		camera.position.set(player.position.x, player.position.y, 0);
 		
 		//start render
 		spriteBatch.setProjectionMatrix(camera.combined);
@@ -96,16 +107,21 @@ public class MainView {
 
 		//render static objects
 		for (StaticObject object : RaniaGame.mController.getStaticObjects()) {
-			object.draw(spriteBatch, textureRegions.get(object.idObject));
+			object.draw(spriteBatch);
 		}
 
 		//render dynamic objects
 		for (DynamicObject object : RaniaGame.mController.getDynamicObjects()) {
-			object.draw(spriteBatch, textureRegions.get(object.idObject));
+			object.draw(spriteBatch);
 		}
 		
 		//render player
-		player.draw(spriteBatch, textureRegions.get(player.idObject));
+		DynamicObject player = RaniaGame.mController.getPlayer();
+		if (player != null)
+		{
+			camera.position.set(player.position.x, player.position.y, 0);
+			player.draw(spriteBatch);
+		}
 		
 		//end render
 		spriteBatch.end();
@@ -113,7 +129,7 @@ public class MainView {
 		spriteBatchHUD.begin();
 		//render HUD objects
 		for (Object object : RaniaGame.mController.getHUDObjects()) {
-			object.draw(spriteBatchHUD, textureRegions.get(object.idObject));
+			object.draw(spriteBatchHUD);
 		}
 		spriteBatchHUD.end();
 	}

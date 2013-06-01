@@ -1,5 +1,6 @@
 package com.android.game.rania.model.element;
 
+import com.android.game.rania.RaniaGame;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -10,10 +11,18 @@ public class Object {
 	public Vector2  position = new Vector2(0.0f, 0.0f);
 	public float	angle    = 0.0f;
 	public Vector2	scale    = new Vector2(1.0f, 1.0f);
-	public ObjectID idObject = ObjectID.NONE;
 	
-	public Object(ObjectID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
-		idObject = id;
+	protected TextureRegion region = null;
+	
+	public Object(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		region = RaniaGame.mView.getTextureRegion(id);
+		position.set(posX, posY);
+		angle = rotAngle;
+		scale.set(scaleX, scaleY);
+	}
+	
+	public Object(TextureRegion textureRegion, float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		region = textureRegion;
 		position.set(posX, posY);
 		angle = rotAngle;
 		scale.set(scaleX, scaleY);
@@ -31,16 +40,23 @@ public class Object {
 		return null;
 	}
 	
-	public void draw(SpriteBatch sprite, TextureRegion region){
+	public void draw(SpriteBatch sprite){
 		if (!visible)
 			return;
-		sprite.draw(region, 
-					position.x - region.getRegionWidth() * 0.5f,
-					position.y - region.getRegionHeight() * 0.5f,
-					region.getRegionWidth() * 0.5f,
-					region.getRegionHeight() * 0.5f,
-					region.getRegionWidth(),
-					region.getRegionHeight(),
+		drawRegion(sprite, region);
+	}
+	
+	protected void drawRegion(SpriteBatch sprite, TextureRegion textureRegion){
+		if (textureRegion == null)
+			return;
+
+		sprite.draw(textureRegion, 
+					position.x - textureRegion.getRegionWidth() * 0.5f,
+					position.y - textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth() * 0.5f,
+					textureRegion.getRegionHeight() * 0.5f,
+					textureRegion.getRegionWidth(),
+					textureRegion.getRegionHeight(),
 					scale.x,
 					scale.y,
 					angle);

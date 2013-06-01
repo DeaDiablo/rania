@@ -1,17 +1,31 @@
 package com.android.game.rania.model.element;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 public class StaticObject extends Object{
 
-	public StaticObject(ObjectID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
+	public StaticObject(RegionID id, float posX, float posY, float rotAngle, float scaleX, float scaleY){
 		super(id, posX, posY, rotAngle, scaleX, scaleY);
 	}
 
-	public StaticObject(ObjectID id, float posX, float posY, float rotAngle){
+	public StaticObject(RegionID id, float posX, float posY, float rotAngle){
 		super(id, posX, posY, rotAngle, 1.0f, 1.0f);
 	}
 	
-	public StaticObject(ObjectID id, float posX, float posY){
+	public StaticObject(RegionID id, float posX, float posY){
 		super(id, posX, posY, 0.0f, 1.0f, 1.0f);
+	}
+	
+	public StaticObject(TextureRegion textureRegion, float posX, float posY, float rotAngle, float scaleX, float scaleY){
+		super(textureRegion, posX, posY, rotAngle, scaleX, scaleY);
+	}
+
+	public StaticObject(TextureRegion textureRegion, float posX, float posY, float rotAngle){
+		super(textureRegion, posX, posY, rotAngle, 1.0f, 1.0f);
+	}
+	
+	public StaticObject(TextureRegion textureRegion, float posX, float posY){
+		super(textureRegion, posX, posY, 0.0f, 1.0f, 1.0f);
 	}
 	
 	@Override

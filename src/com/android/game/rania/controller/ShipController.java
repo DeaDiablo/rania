@@ -47,6 +47,7 @@ public class ShipController extends UpdateController{
 		else
 		{
 			moveVec.set(0.0f, 0.0f);
+			controllObject.position.set(touchPoint);
 			move = false;
 		}
 	}
