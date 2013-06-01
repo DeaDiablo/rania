@@ -23,6 +23,7 @@ public class PlanetSprite extends StaticObject{
 		time += Gdx.graphics.getDeltaTime();
 		position.set((float)Math.cos(Math.toRadians(planet.speed * time)), (float)Math.sin(Math.toRadians(planet.speed * time)));
 		position.mul(planet.orbit);
+		angle = planet.speed * time + 45.0f;
 		
 		super.drawRegion(sprite, region);
 	}
