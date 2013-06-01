@@ -89,7 +89,7 @@ public class MainMenu implements Screen{
 				}
 				else
 				{
-					//Toast.makeText(RaniaGame.mContext.getApplicationContext(), "Invalid login or password...", Toast.LENGTH_SHORT).show();
+					RaniaGame.mHelperUI.showToastLong("Invalid login or password...");
 				}
 	        }
 	    });

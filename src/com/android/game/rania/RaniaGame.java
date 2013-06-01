@@ -8,6 +8,7 @@ import android.content.Context;
 import com.android.game.rania.controller.MainController;
 import com.android.game.rania.model.element.Locations;
 import com.android.game.rania.model.element.Planets;
+import com.android.game.rania.model.ui.HelperUI;
 import com.android.game.rania.net.NetController;
 import com.android.game.rania.screen.MainMenu;
 import com.android.game.rania.userdata.User;
@@ -17,10 +18,18 @@ import com.badlogic.gdx.Gdx;
 
 public class RaniaGame extends Game {
 	
+	//game
 	public static RaniaGame      mGame       = null;
-	public static Context		 mContext    = null;
+	
+	//mvc
 	public static MainView       mView       = null;
 	public static MainController mController = null;
+	
+	//helpers
+	public static Context        mContext    = null;
+	public static HelperUI       mHelperUI   = null;
+	
+	//network
 	public static NetController  nController = null;
 	public static User           mUser       = null;
 	public static List<Locations>mLocations;
@@ -29,6 +38,7 @@ public class RaniaGame extends Game {
 	public RaniaGame(Context context) {
 		super();
 		mContext = context;
+		mHelperUI = new HelperUI(mContext);
 	}
 
 	@Override
@@ -41,7 +51,6 @@ public class RaniaGame extends Game {
 		mLocations = new ArrayList<Locations>();
 		mPlanets = new ArrayList<Planets>();
 		setScreen(new MainMenu());
-		//setScreen(new SpaceScreen());
 	}
 
 	/*

@@ -33,8 +33,8 @@ public class SpaceScreen implements Screen{
 		SpaceShip ship = new SpaceShip(0.0f, 0.0f);
 		controller.setPlayer(ship);
 
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.5f, 1.0f));
-		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, 0.2f, 1.0f));
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.3f, 1.0f));
+		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, 0.0f, 1.0f));
 		controller.addProcessor(new ShipController(ship));
 	}
 
