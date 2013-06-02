@@ -76,19 +76,21 @@ public class MainMenu implements Screen{
 				//автологин
 				loginTextField.setText("traider");
 				passwordTextField.setText("SNmLwpLn");
-				//автологин
-				RaniaGame.mUser = netController.ClientLogin(loginTextField.getText(), passwordTextField.getText());
-				if (RaniaGame.mUser.isLogin)
+				if ((loginTextField.getText()!="")&&(passwordTextField.getText()!=""))
 				{
-					dispose();
-					netController.GetUserData(RaniaGame.mUser);
-					RaniaGame.mLocations = RaniaGame.nController.GetAllLocations(RaniaGame.mUser);
-					RaniaGame.mUser.isWorkReciver=true;
-					game.setScreen(new SpaceScreen());
-				}
-				else
-				{
-					RaniaGame.mHelperUI.showToastLong("Invalid login or password...");
+					RaniaGame.mUser = netController.ClientLogin(loginTextField.getText(), passwordTextField.getText());
+					if (RaniaGame.mUser.isLogin)
+					{
+						dispose();
+						netController.GetUserData(RaniaGame.mUser);
+						RaniaGame.mLocations = RaniaGame.nController.GetAllLocations(RaniaGame.mUser);
+						RaniaGame.mUser.isWorkReciver=true;
+						game.setScreen(new SpaceScreen());
+					}
+					else
+					{
+						RaniaGame.mHelperUI.showToastLong("Invalid login or password...");
+					}
 				}
 	        }
 	    });
