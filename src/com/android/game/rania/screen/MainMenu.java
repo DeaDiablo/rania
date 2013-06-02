@@ -1,5 +1,6 @@
 package com.android.game.rania.screen;
 
+import com.android.game.rania.Config;
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.controller.MainController;
 import com.android.game.rania.model.element.RegionID;
@@ -74,9 +75,9 @@ public class MainMenu implements Screen{
 	        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				NetController netController = new NetController();
 				//автологин
-				loginTextField.setText("traider");
-				passwordTextField.setText("SNmLwpLn");
-				if ((loginTextField.getText()!="")&&(passwordTextField.getText()!=""))
+				loginTextField.setText(Config.autoLogin);
+				passwordTextField.setText(Config.autoPassword);
+				if ((loginTextField.getText() != "") && (passwordTextField.getText() != ""))
 				{
 					RaniaGame.mUser = netController.ClientLogin(loginTextField.getText(), passwordTextField.getText());
 					if (RaniaGame.mUser.isLogin)
@@ -84,7 +85,7 @@ public class MainMenu implements Screen{
 						dispose();
 						netController.GetUserData(RaniaGame.mUser);
 						RaniaGame.mLocations = RaniaGame.nController.GetAllLocations(RaniaGame.mUser);
-						RaniaGame.mUser.isWorkReciver=true;
+						RaniaGame.mUser.isWorkReciver = true;
 						game.setScreen(new SpaceScreen());
 					}
 					else
@@ -108,13 +109,13 @@ public class MainMenu implements Screen{
 		Table container = new Table();
 		container.setSize(width, height);
 		container.setPosition(0.0f, 0.0f);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.08f).pad(5, width * 0.5f, 5, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, 5, 0);
 	    container.add(loginTextField);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.08f).pad(5, width * 0.5f, 5, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, 5, 0);
 	    container.add(passwordTextField);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.08f).pad(5, width * 0.5f, height * 0.1f, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, height * 0.1f, 0);
 	    container.add(loginButton);
-	    container.row().fill(true).width(width * 0.25f).height(height * 0.08f).pad(5, width * 0.5f, height * 0.4f, 0);
+	    container.row().fill(true).width(width * 0.25f).height(height * 0.1f).pad(5, width * 0.5f, height * 0.4f, 0);
 	    container.add(exitButton);
 		stage.addActor(container);
 		controller.addProcessor(stage);

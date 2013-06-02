@@ -1,6 +1,7 @@
 package com.android.game.rania.model.element;
 
 import com.android.game.rania.RaniaGame;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +12,7 @@ public class Object {
 	public Vector2  position = new Vector2(0.0f, 0.0f);
 	public float	angle    = 0.0f;
 	public Vector2	scale    = new Vector2(1.0f, 1.0f);
+	public Color	color    = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	protected TextureRegion region = null;
 	
@@ -43,6 +45,7 @@ public class Object {
 	public void draw(SpriteBatch sprite){
 		if (!visible)
 			return;
+		sprite.setColor(color);
 		drawRegion(sprite, region);
 	}
 	

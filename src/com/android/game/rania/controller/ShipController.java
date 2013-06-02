@@ -36,7 +36,7 @@ public class ShipController extends UpdateController{
 			moveVec.set(touchPoint);
 			moveVec.sub(controllObject.position);
 			moveVec.nor();
-			moveVec.mul(controllObject.speed);
+			moveVec.mul(controllObject.speed * deltaTime * 100);
 			touched = false;
 		}
 

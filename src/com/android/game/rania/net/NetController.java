@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.android.game.rania.RaniaGame;
+import com.android.game.rania.Config;
 import com.android.game.rania.model.Location;
 import com.android.game.rania.model.Planet;
 import com.android.game.rania.userdata.Command;
 import com.android.game.rania.userdata.User;
+import com.badlogic.gdx.graphics.Color;
 
 public class NetController {
-	
-	private int serverPort = 7777;
-	private String serverAddress = "92.255.251.88";
 
 	public User ClientLogin(String Login, String Password)
 	{
@@ -29,8 +28,8 @@ public class NetController {
 		Res.isConnected = false;
 		try
 		{
-			InetAddress ipAddress = InetAddress.getByName(serverAddress);
-			Socket socket = new Socket(ipAddress, serverPort);
+			InetAddress ipAddress = InetAddress.getByName(Config.serverAddress);
+			Socket socket = new Socket(ipAddress, Config.serverPort);
 			if (socket.isConnected())
 			{
 				Res.socket = socket;
@@ -181,10 +180,10 @@ public class NetController {
 					RadiusArr[j]=PlanetsArr[ArrPtr];
 					ArrPtr++;
 				}
-				byte[] ColorArr = new byte[4];
+				char[] ColorArr = new char[4];
 				for (int j=0;j<4;j++)
 				{
-					ColorArr[j]=PlanetsArr[ArrPtr];
+					ColorArr[j]=(char)PlanetsArr[ArrPtr];
 					ArrPtr++;
 				}
 				byte[] AtmosphereArr = new byte[4];
@@ -193,15 +192,15 @@ public class NetController {
 					AtmosphereArr[j]=PlanetsArr[ArrPtr];
 					ArrPtr++;
 				}
-				Planet planet = new Planet();
-				planet.id = byteArrayToInt(idArr);
+				Planet planet     = new Planet();
+				planet.id         = byteArrayToInt(idArr);
 				planet.planetType = byteArrayToInt(PlanetTypeArr);
-				planet.orbit = byteArrayToInt(OrbitArr);
+				planet.orbit      = byteArrayToInt(OrbitArr);
 				planet.planetName = new String(PlanetNameArr, "UTF-16LE");
-				planet.speed = byteArrayToInt(R_speedArr);
-				planet.radius  = byteArrayToInt(RadiusArr);
-				planet.color  = byteArrayToInt(ColorArr);
-				planet.atmosphere  = byteArrayToInt(AtmosphereArr);
+				planet.speed      = byteArrayToInt(R_speedArr);
+				planet.radius     = byteArrayToInt(RadiusArr);
+				planet.color      = new Color(ColorArr[0] / 255.0f, ColorArr[1] / 255.0f, ColorArr[2] / 255.0f, ColorArr[3] / 255.0f);
+				planet.atmosphere = byteArrayToInt(AtmosphereArr);
 				planets.put(String.valueOf(planet.id), planet);
 			}
 		}
@@ -271,9 +270,9 @@ public class NetController {
 					ArrPtr++;
 				}
 				Location Loc = new Location();
-				Loc.id = byteArrayToInt(idArr);
-				Loc.x = byteArrayToInt(xArr);
-				Loc.y = byteArrayToInt(yArr);
+				Loc.id       = byteArrayToInt(idArr);
+				Loc.x        = byteArrayToInt(xArr);
+				Loc.y        = byteArrayToInt(yArr);
 				Loc.starType = byteArrayToInt(StarTypeArr);
 				Loc.starName = new String(StarNameArr, "UTF-16LE");
 				locations.put(String.valueOf(Loc.id), Loc);

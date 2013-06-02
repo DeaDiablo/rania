@@ -72,7 +72,8 @@ public class RaniaGame extends Game {
 
 	@Override
 	public void dispose() {
-		mLocations.clear();
+		if (mLocations != null)
+			mLocations.clear();
 		Gdx.app.exit();
 	}
 }

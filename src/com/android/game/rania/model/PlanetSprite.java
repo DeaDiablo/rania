@@ -11,8 +11,9 @@ public class PlanetSprite extends StaticObject{
 	private float time = 0.0f;
 
 	public PlanetSprite(Planet planet) {
-		super(RegionID.PLANET, 150, 150);
+		super(RegionID.PLANET, 0, 0);
 		this.planet = planet;
+		scale.set((float)planet.radius / region.getRegionWidth(), (float)planet.radius / region.getRegionHeight());
 	}
 	
 	@Override
@@ -25,6 +26,7 @@ public class PlanetSprite extends StaticObject{
 		position.mul(planet.orbit);
 		angle = planet.speed * time + 45.0f;
 		
+		sprite.setColor(planet.color);
 		super.drawRegion(sprite, region);
 	}
 }
