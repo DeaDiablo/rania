@@ -2,7 +2,6 @@ package com.android.game.rania.controller;
 
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.model.SpaceShip;
-import com.android.game.rania.userdata.User;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 

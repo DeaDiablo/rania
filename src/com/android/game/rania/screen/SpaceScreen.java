@@ -37,7 +37,7 @@ public class SpaceScreen implements Screen{
 		view.loadTexture("data/backgrounds/stars.png", RegionID.BACKGROUND_STARS);
 		view.getTexture(RegionID.BACKGROUND_STARS).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 
-		SpaceShip ship = new SpaceShip(250.0f, 250.0f);
+		SpaceShip ship = new SpaceShip(RaniaGame.mUser.x, RaniaGame.mUser.y);
 		controller.setPlayer(ship);
 
 		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.3f, 1.0f));
