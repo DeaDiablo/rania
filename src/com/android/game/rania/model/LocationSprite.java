@@ -5,7 +5,6 @@ import java.util.HashMap;
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.model.element.Group;
 import com.android.game.rania.model.element.RegionID;
-import com.android.game.rania.model.element.StaticObject;
 
 public class LocationSprite extends Group{
 
@@ -14,10 +13,8 @@ public class LocationSprite extends Group{
 	public LocationSprite(Location location){
 		super();
 		this.location = location;
-		
-		StaticObject star = new StaticObject(RegionID.STAR, 0, 0);
-		star.scale.set(5, 5);
-		AddElement(star);
+
+		AddElement(new Star(RegionID.STAR, location.starRadius));
 
 		RaniaGame.mUser.isWorkReciver = false;
 		HashMap<String, Planet> planets = RaniaGame.nController.GetCurrentPlanets(RaniaGame.mUser);

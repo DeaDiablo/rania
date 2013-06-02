@@ -9,6 +9,7 @@ import com.android.game.rania.model.element.Object;
 import com.android.game.rania.model.element.RegionID;
 import com.android.game.rania.model.element.StaticObject;
 import com.badlogic.gdx.Gdx;
+//import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,6 +23,7 @@ public class MainView {
 	//sprites
 	private SpriteBatch spriteBatch = null;
 	private SpriteBatch spriteBatchHUD = null;
+	//private FPSLogger fpsLog;
 	
 	//textures
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -33,6 +35,7 @@ public class MainView {
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatchHUD = new SpriteBatch();
+		//fpsLog = new FPSLogger();
 	}
 	
 	public TextureRegion loadTexture(String fileTexture, RegionID id) {
@@ -132,5 +135,7 @@ public class MainView {
 			object.draw(spriteBatchHUD);
 		}
 		spriteBatchHUD.end();
+		
+		//fpsLog.log();
 	}
 }

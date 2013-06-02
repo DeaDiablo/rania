@@ -27,7 +27,10 @@ public class SpaceScreen implements Screen{
 	@Override
 	public void show() {
 		view.loadTexture("data/sprites/star.png", RegionID.STAR);
-		view.loadTexture("data/sprites/planet.png", RegionID.PLANET);
+		
+		for (int i = 0; i < 18; i++)
+			view.loadTexture("data/sprites/planets.png", RegionID.fromInt(RegionID.PLANET_0.ordinal() + i), i % 5 * 102, i / 5 * 102, 102, 102);
+		
 		view.loadTexture("data/sprites/SpaceShip.png", RegionID.SHIP);
 		view.loadTexture("data/backgrounds/space.jpg", RegionID.BACKGROUND_SPACE);
 		view.getTexture(RegionID.BACKGROUND_SPACE).setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
