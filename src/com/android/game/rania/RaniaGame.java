@@ -1,8 +1,11 @@
 package com.android.game.rania;
 
+import java.util.Vector;
+
 import android.content.Context;
 
 import com.android.game.rania.controller.MainController;
+import com.android.game.rania.model.Location;
 import com.android.game.rania.model.ui.HelperUI;
 import com.android.game.rania.net.NetController;
 import com.android.game.rania.screen.MainMenu;
@@ -15,6 +18,7 @@ public class RaniaGame extends Game {
 	
 	//game
 	public static RaniaGame      mGame       = null;
+	public static Vector<Location> mLocations= null;
 	
 	//mvc
 	public static MainView       mView       = null;

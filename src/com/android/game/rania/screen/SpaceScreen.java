@@ -39,7 +39,6 @@ public class SpaceScreen implements Screen{
 
 		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.3f, 1.0f));
 		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, 0.0f, 1.0f));
-		//Vector<Location> locations = RaniaGame.nController.GetAllLocations(RaniaGame.mUser);
 		//Gdx.app.log("looog", "size: " + locations.size());
 		Location loc = new Location();
 		loc.id = 0;

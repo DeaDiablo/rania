@@ -45,8 +45,10 @@ public class NetController {
 					Res.socket = socket;
 					Res.isLogin = true;
 					Res.isConnected = true;
+					Res.isWorkReciver = false;
 					Res.receiver = new ReceiverWork();
 					Res.commands = new ArrayList<Command>();
+					RaniaGame.mUser.receiver.start();
 				}
 			}
 		}
@@ -59,6 +61,7 @@ public class NetController {
 	
 	private class ReceiverWork extends Thread
 		{
+			private boolean Work;
 			public void run()
 			{
 				try
@@ -72,15 +75,19 @@ public class NetController {
 					byte[] data;
 					while (true)
 					{
-						in.read(bytesCom);
-						in.read(bytesLen);
-						Command = byteArrayToInt(bytesCom);
-						Length = byteArrayToInt(bytesLen);
-						data = new byte[Length];
-						if (Command == 4)
+						Work = RaniaGame.mUser.isWorkReciver;
+						while (Work)
 						{
-							in.read(data);
-							RaniaGame.mUser.commands.add(new Command(Command, Length, data));
+							in.read(bytesCom);
+							in.read(bytesLen);
+							Command = byteArrayToInt(bytesCom);
+							Length = byteArrayToInt(bytesLen);
+							data = new byte[Length];
+							if (Command == 4)
+							{
+								in.read(data);
+								RaniaGame.mUser.commands.add(new Command(Command, Length, data));
+							}
 						}
 					}
 				}
@@ -174,6 +181,18 @@ public class NetController {
 					RadiusArr[j]=PlanetsArr[ArrPtr];
 					ArrPtr++;
 				}
+				byte[] ColorArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					ColorArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
+				byte[] AtmosphereArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					AtmosphereArr[j]=PlanetsArr[ArrPtr];
+					ArrPtr++;
+				}
 				Planet planet = new Planet();
 				planet.id = byteArrayToInt(idArr);
 				planet.planetType = byteArrayToInt(PlanetTypeArr);
@@ -181,6 +200,8 @@ public class NetController {
 				planet.planetName = new String(PlanetNameArr, "UTF-16LE");
 				planet.speed = byteArrayToInt(R_speedArr);
 				planet.radius  = byteArrayToInt(RadiusArr);
+				planet.color  = byteArrayToInt(ColorArr);
+				planet.atmosphere  = byteArrayToInt(AtmosphereArr);
 				planets.add(planet);
 			}
 		}

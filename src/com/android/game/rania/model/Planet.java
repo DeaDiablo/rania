@@ -6,5 +6,7 @@ public class Planet {
 	public int speed;
 	public int orbit;
 	public int radius;
+	public int color;
+	public int atmosphere;
 	public String planetName;
 }
