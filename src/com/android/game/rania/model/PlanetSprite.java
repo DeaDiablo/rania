@@ -11,7 +11,7 @@ public class PlanetSprite extends StaticObject{
 	private float time = 0.0f;
 
 	public PlanetSprite(Planet planet) {
-		super(RegionID.PLANET, 0, 0);
+		super(RegionID.fromInt(RegionID.PLANET_0.ordinal() + planet.id), 0, 0);
 		this.planet = planet;
 		scale.set((float)planet.radius / region.getRegionWidth(), (float)planet.radius / region.getRegionHeight());
 	}
