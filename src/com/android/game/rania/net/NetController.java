@@ -19,6 +19,19 @@ import com.badlogic.gdx.graphics.Color;
 
 public class NetController {
 
+	public void SendTouchPoint(int x, int y, User user)
+	{
+		byte[] data = new byte[16];
+		byte[] xArr = intToByteArray(x);
+		byte[] yArr = intToByteArray(y);
+		byte[] userxArr = intToByteArray(RaniaGame.mUser.x);
+		byte[] useryArr = intToByteArray(RaniaGame.mUser.y);
+		System.arraycopy(xArr, 0, data, 0, 4);
+		System.arraycopy(yArr, 0, data, 4, 4);
+		System.arraycopy(userxArr, 0, data, 8, 4);
+		System.arraycopy(useryArr, 0, data, 12, 4);
+		SendCommand(10, data, user.socket);
+	}
 	public User ClientLogin(String Login, String Password)
 	{
 		User Res = new User();

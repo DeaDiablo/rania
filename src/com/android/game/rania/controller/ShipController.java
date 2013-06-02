@@ -2,6 +2,7 @@ package com.android.game.rania.controller;
 
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.model.SpaceShip;
+import com.android.game.rania.userdata.User;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
@@ -22,6 +23,7 @@ public class ShipController extends UpdateController{
 	public boolean touchUp(int x, int y, int pointer, int button) {
 		touchPoint.set(x, Gdx.graphics.getHeight() - y);
 		RaniaGame.mView.getCamera().toCameraCoord(touchPoint);
+		RaniaGame.nController.SendTouchPoint((int)touchPoint.x, (int)touchPoint.y, RaniaGame.mUser);
 		touched = true;
 		move = true;
 		return true;
@@ -48,6 +50,7 @@ public class ShipController extends UpdateController{
 		{
 			moveVec.set(0.0f, 0.0f);
 			controllObject.position.set(touchPoint);
+			RaniaGame.nController.SendTouchPoint((int)touchPoint.x, (int)touchPoint.y, RaniaGame.mUser);
 			move = false;
 		}
 	}
