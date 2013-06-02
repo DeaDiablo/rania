@@ -107,6 +107,12 @@ public class MainController extends InputMultiplexer{
 	}
 	
 	public void update(float deltaTime){
+		if (mPlayer != null)
+		{
+			RaniaGame.mUser.x = (int)mPlayer.position.x;
+			RaniaGame.mUser.y = (int)mPlayer.position.y;
+		}
+
 		for (UpdateController controller : updateControllers) {
 			controller.update(deltaTime);
 		}
