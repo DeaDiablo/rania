@@ -16,4 +16,5 @@ public class User {
 	public int y;
 	public String PilotName;
 	public String ShipName;
+	public int ServerTime;
 }

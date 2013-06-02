@@ -39,10 +39,13 @@ public class NetController {
 				SendCommand(6, Password.getBytes("UTF-16LE"), socket);
 				byte[] answer = new byte[4]; 
 				in.read(answer);
+				byte[] ServerTimeArr = new byte[4]; 
+				in.read(ServerTimeArr);
 				if (byteArrayToInt(answer)>0) 
 				{
 					Res.socket = socket;
 					Res.isLogin = true;
+					Res.ServerTime = byteArrayToInt(ServerTimeArr);
 					Res.isConnected = true;
 					Res.isWorkReciver = false;
 					Res.receiver = new ReceiverWork();
@@ -269,12 +272,19 @@ public class NetController {
 					yArr[j]=LocationsArr[ArrPtr];
 					ArrPtr++;
 				}
-				Location Loc = new Location();
-				Loc.id       = byteArrayToInt(idArr);
-				Loc.x        = byteArrayToInt(xArr);
-				Loc.y        = byteArrayToInt(yArr);
-				Loc.starType = byteArrayToInt(StarTypeArr);
-				Loc.starName = new String(StarNameArr, "UTF-16LE");
+				byte[] radiusArr = new byte[4];
+				for (int j=0;j<4;j++)
+				{
+					radiusArr[j]=LocationsArr[ArrPtr];
+					ArrPtr++;
+				}
+				Location Loc   = new Location();
+				Loc.id         = byteArrayToInt(idArr);
+				Loc.x          = byteArrayToInt(xArr);
+				Loc.y          = byteArrayToInt(yArr);
+				Loc.starRadius = byteArrayToInt(radiusArr);
+				Loc.starType   = byteArrayToInt(StarTypeArr);
+				Loc.starName   = new String(StarNameArr, "UTF-16LE");
 				locations.put(String.valueOf(Loc.id), Loc);
 			}
 		}
