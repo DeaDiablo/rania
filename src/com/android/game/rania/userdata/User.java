@@ -11,7 +11,7 @@ public class User {
 	public boolean isWorkReciver;
 	public Thread receiver;
 	public List<Command> commands;
-	public int Location;
+	public int idLocation;
 	public int x;
 	public int y;
 	public String PilotName;

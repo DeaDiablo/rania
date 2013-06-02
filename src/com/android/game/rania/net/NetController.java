@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.HashMap;
 
 import com.android.game.rania.RaniaGame;
 import com.android.game.rania.model.Location;
@@ -60,43 +60,43 @@ public class NetController {
 	}
 	
 	private class ReceiverWork extends Thread
+	{
+		private boolean Work;
+		public void run()
 		{
-			private boolean Work;
-			public void run()
+			try
 			{
-				try
+				InputStream sin = RaniaGame.mUser.socket.getInputStream();
+				DataInputStream in = new DataInputStream(sin);
+				byte[] bytesCom = new byte[4];
+				byte[] bytesLen = new byte[4];
+				int Command = 0;
+				int Length = 0;
+				byte[] data;
+				while (true)
 				{
-					InputStream sin = RaniaGame.mUser.socket.getInputStream();
-					DataInputStream in = new DataInputStream(sin);
-					byte[] bytesCom = new byte[4];
-					byte[] bytesLen = new byte[4];
-					int Command = 0;
-					int Length = 0;
-					byte[] data;
-					while (true)
+					Work = RaniaGame.mUser.isWorkReciver;
+					while (Work)
 					{
-						Work = RaniaGame.mUser.isWorkReciver;
-						while (Work)
+						in.read(bytesCom);
+						in.read(bytesLen);
+						Command = byteArrayToInt(bytesCom);
+						Length = byteArrayToInt(bytesLen);
+						data = new byte[Length];
+						if (Command == 4)
 						{
-							in.read(bytesCom);
-							in.read(bytesLen);
-							Command = byteArrayToInt(bytesCom);
-							Length = byteArrayToInt(bytesLen);
-							data = new byte[Length];
-							if (Command == 4)
-							{
-								in.read(data);
-								RaniaGame.mUser.commands.add(new Command(Command, Length, data));
-							}
+							in.read(data);
+							RaniaGame.mUser.commands.add(new Command(Command, Length, data));
 						}
 					}
 				}
-				catch (Exception ex)
-				{
-	
-				}
+			}
+			catch (Exception ex)
+			{
+
 			}
 		}
+	}
 	
 	public void ClientDisconnect(User user)
 	{
@@ -118,9 +118,9 @@ public class NetController {
 		
 	}
 	
-	public Vector<Planet> GetCurrentPlanets(User user)
+	public HashMap<String, Planet> GetCurrentPlanets(User user)
 	{
-		Vector<Planet> planets = new Vector<Planet>();
+		HashMap<String, Planet> planets = new HashMap<String, Planet>();
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -202,7 +202,7 @@ public class NetController {
 				planet.radius  = byteArrayToInt(RadiusArr);
 				planet.color  = byteArrayToInt(ColorArr);
 				planet.atmosphere  = byteArrayToInt(AtmosphereArr);
-				planets.add(planet);
+				planets.put(String.valueOf(planet.id), planet);
 			}
 		}
 		catch (Exception ex)
@@ -213,9 +213,9 @@ public class NetController {
 		return planets;
 	}
 	
-	public Vector<Location> GetAllLocations(User user)
+	public HashMap<String, Location> GetAllLocations(User user)
 	{
-		Vector<Location> locations = new Vector<Location>();
+		HashMap<String, Location> locations = new HashMap<String, Location>();
 		try
 		{
 			InputStream sin = user.socket.getInputStream();
@@ -275,8 +275,8 @@ public class NetController {
 				Loc.x = byteArrayToInt(xArr);
 				Loc.y = byteArrayToInt(yArr);
 				Loc.starType = byteArrayToInt(StarTypeArr);
-				Loc.starName = new String(StarNameArr, "UTF-16LE"); 
-				locations.add(Loc);
+				Loc.starName = new String(StarNameArr, "UTF-16LE");
+				locations.put(String.valueOf(Loc.id), Loc);
 			}
 		}
 		catch (Exception ex)
@@ -307,7 +307,7 @@ public class NetController {
 			in.read(SnameLenArr);
 			byte[] SnameArr = new byte[byteArrayToInt(SnameLenArr)];
 			in.read(SnameArr);
-			user.Location = byteArrayToInt(LocArr);
+			user.idLocation = byteArrayToInt(LocArr);
 			user.x = byteArrayToInt(xArr);
 			user.y = byteArrayToInt(yArr);
 			user.PilotName = new String(PnameArr, "UTF-16LE");

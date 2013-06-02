@@ -39,14 +39,9 @@ public class SpaceScreen implements Screen{
 
 		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_SPACE, 0.3f, 1.0f));
 		controller.addStaticObject(new ParallaxLayer(RegionID.BACKGROUND_STARS, 0.0f, 1.0f));
-		//Gdx.app.log("looog", "size: " + locations.size());
-		Location loc = new Location();
-		loc.id = 0;
-		loc.x = 0;
-		loc.y = 0;
-		loc.starType = 0;
-		loc.starName = "Sun";
-		controller.addObject(new LocationSprite(loc));
+		Location location = RaniaGame.mLocations.get(String.valueOf(RaniaGame.mUser.idLocation));
+		if (location != null)
+			controller.addObject(new LocationSprite(location));
 		controller.addProcessor(new ShipController(ship));
 	}
 

@@ -1,6 +1,6 @@
 package com.android.game.rania;
 
-import java.util.Vector;
+import java.util.HashMap;
 
 import android.content.Context;
 
@@ -17,20 +17,20 @@ import com.badlogic.gdx.Gdx;
 public class RaniaGame extends Game {
 	
 	//game
-	public static RaniaGame      mGame       = null;
-	public static Vector<Location> mLocations= null;
+	public static RaniaGame                 mGame       = null;
+	public static HashMap<String, Location> mLocations  = null;
 	
 	//mvc
 	public static MainView       mView       = null;
 	public static MainController mController = null;
 	
 	//helpers
-	public static Context        mContext    = null;
-	public static HelperUI       mHelperUI   = null;
+	public static Context  mContext  = null;
+	public static HelperUI mHelperUI = null;
 	
 	//network
-	public static NetController  nController = null;
-	public static User           mUser       = null;
+	public static NetController nController = null;
+	public static User          mUser       = null;
 	
 	public RaniaGame(Context context) {
 		super();
@@ -72,6 +72,7 @@ public class RaniaGame extends Game {
 
 	@Override
 	public void dispose() {
+		mLocations.clear();
 		Gdx.app.exit();
 	}
 }
