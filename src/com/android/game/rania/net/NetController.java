@@ -45,7 +45,7 @@ public class NetController {
 				{
 					Res.socket = socket;
 					Res.isLogin = true;
-					Res.ServerTime = byteArrayToInt(ServerTimeArr);
+					Res.serverTime = byteArrayToInt(ServerTimeArr);
 					Res.isConnected = true;
 					Res.isWorkReciver = false;
 					Res.receiver = new ReceiverWork();
